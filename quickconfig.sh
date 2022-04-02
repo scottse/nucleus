@@ -10,6 +10,7 @@
 # 2022/3/31 - Initial commit.
 # 2022/1/22 - Started work on this script.
 #------------------------------------------------------------------------------
+
 # The port Wireguard will use to listen for incoming connections.
 LISTEN_PORT=51820
 
@@ -54,6 +55,7 @@ function menu() {
 # This function is used for creating the Wireguard server side configuration file
 # and create both private and public keys.
 function server() {
+  # A set of questions asking the users input on how files should be created.
   echo
   echo "A new directory will be created to store all the files in the home"
   echo "directory of $(echo "$USER")."
@@ -78,8 +80,7 @@ function server() {
   echo
   echo "Creating the server private and public key pair..."
   wg genkey | tee $WG_DIR/"$srv_dir"/"$srv_dir".privkey | wg pubkey > $WG_DIR/"$srv_dir"/"$srv_dir".pubkey
-
- local srv_privkey=$(<$WG_DIR/"$srv_dir"/"$srv_dir".privkey)
+  local srv_privkey=$(<$WG_DIR/"$srv_dir"/"$srv_dir".privkey)
 
   # Creating the server configuration file using the default name of wg0.conf,
   # and the iptables commands can be changed to suit the needs of each
@@ -101,8 +102,9 @@ PrivateKey = $srv_privkey
 EOF
 
   # Returning back to users home directory.
-  echo
-  echo "Returning to menu"
+  echo 
+  cd ~
+  echo "Returning to menu..."
   # Returning to menu.
   menu
 }
@@ -110,13 +112,14 @@ EOF
 # The peer function is for creating the peer configuration file for a existing 
 # Wireguar deployments.
 function peer() {
+  # A set of questions asking the users input on how files should be created.
   echo
   echo "A new directory will be created to store all the files in the home"
   echo "directory of $(echo "$USER")."
   echo
   echo "Let's get started..."
   echo
-  echo "What filename would you like to use?"
+  echo "What name should be used for the peer conf file?"
   while :; do
     read -rp "e.g. foo (Don't add \".conf\", it will be added later.): " peer_file
     #if [ -d $WG_DIR/$peer_file ] || [[ -e $WG_DIR/$peer_file.privkey && $WG_DIR/$peer_file.pubkey ]]; then
@@ -138,6 +141,7 @@ function peer() {
   echo
   echo "What DNS IP address would you like to use?"
   read -rp "e.g. 1.1.1.1 or 9.9.9.9: " dns_ip
+  
   echo "Creating directory for peer conf file..."
   mkdir $WG_DIR/"$peer_file"
   cd $WG_DIR/"$peer_file" || echo "Unable to create directory. Exiting..."; exit 2
@@ -145,9 +149,11 @@ function peer() {
   echo "Creating Wireguard peer key pair..."
   wg genkey | tee $WG_DIR/"$peer_file"/"$peer_file".privkey | wg pubkey >\
   $WG_DIR/"$peer_file"/"$peer_file".pubkey
+  
   # Setting the varaibles for the private and public key.
   local peer_priv_key=$(<$WG_DIR/"$peer_file"/"$peer_file".privkey)
   local peer_pub_key=$(<$WG_DIR/"$peer_file"/"$peer_file".pubkey)
+  
   # Creating peer confi files.
   cat > $WG_DIR/"$peer_file"/"$peer_file".conf << EOF
 [Interface]
@@ -163,18 +169,21 @@ PersistentKeepalive = 30
 EOF
   # Returning back to users home directory.
   echo
-  echo "Returning to menu"
+  cd ~
+  echo "Returning to menu..."
   # Returning to menu.
   menu
 }
+
 # The quick function is for starting a new Wireguard deployment. It will create
 # the server configuration file and a single or multiple peer configuration files.
-# 
 function quick() {
   # The starting number for the peer configuration files.
   local x=1
   # The start number of the last octet of peer IP address. 
   local y=2
+  
+  # A set of questions asking the users input on how files should be created.  
   echo
   echo "A new directory will be created to store all the files in the home"
   echo "directory of $(echo "$USER")."
@@ -275,9 +284,9 @@ EOF
   # Returning to menu.
   echo
   echo "Returning to menu..."
-  sleep 2
   menu
 }
+
 # Help section.
 function help_func() {
   echo "Usage: The menu has three options to select from: Server, Peer and quick,"
@@ -320,6 +329,7 @@ function help_func() {
   # Returning to menu.
   menu
 }
+
 # Checking to see if Wireguard is installed before running the menu function.
 # Thix will check for wg on Linux and MacOS.
 if [ -e /usr/bin/wg ] || [ -e /usr/local/bin/wg ]; then
