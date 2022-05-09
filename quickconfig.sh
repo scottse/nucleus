@@ -75,7 +75,7 @@ function server() {
   read -rp "Ex. 192.168.1.1/24 or 10.243.43.1/24: " srv_ip
   echo "Creating the directory for $srv_dir now..."
   mkdir $WG_DIR/"$srv_dir"
-  cd $WG_DIR/"$srv_dir" || echo "Unable to create directory. Exiting..."; exit 2
+  cd $WG_DIR/"$srv_dir"
   umask 077
   echo
   echo "Creating the server private and public key pair..."
@@ -144,8 +144,7 @@ function peer() {
   
   echo "Creating directory for peer conf file..."
   mkdir $WG_DIR/"$peer_file"
-  cd $WG_DIR/"$peer_file" || echo "Unable to create directory. Exiting..."; exit 2
-  umask 077
+  cd $WG_DIR/"$peer_file"
   echo "Creating Wireguard peer key pair..."
   wg genkey | tee $WG_DIR/"$peer_file"/"$peer_file".privkey | wg pubkey >\
   $WG_DIR/"$peer_file"/"$peer_file".pubkey
