@@ -340,6 +340,8 @@ else
   echo "For Ubuntu/Debian or CentOS/Fedora use the respective commands below:"
   echo "Ubuntu/Debian: sudo apt install wireguard"
   echo "CentOS/Fedora: sudo dnf install wireguard-tools"
+  echo "MacOS: Use either Homebrew or Macports to install the Wireguard binaries. Visit the"
+  echo "link below for more information."
   echo "Please visit https://www.wireguard.com/install/ for all other distros."
   exit 1
 fi
