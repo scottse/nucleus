@@ -10,7 +10,8 @@ this script.
 ### Server
 The server option creates single Wireguard server configuration
 file with the default name of wg0.comf. This option will ask some questions on how the configuration file should be configured. The public/private key will also be created for the server.
-Note: Peer connections will not be added to configuration file, they must be added manually to the file.
+
+>Note: Peer connections will not be added to configuration file, they must be added manually to the file.
 
 ### Peer
 The peer option creates a single Wireguard peer configuration
