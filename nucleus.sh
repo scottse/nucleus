@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
-# Usage: A script designed to create the server and peer configuration for 
-# Wireguard on Linux and MacOS.
+# Usage: This script is designed to create the server and peer configuration files
+# for Wireguard on Linux and MacOS. 
 #
 # Created by Scott Sewares under the MIT License. More information can be
 # found here: https://choosealicense.com/licenses/mit/
