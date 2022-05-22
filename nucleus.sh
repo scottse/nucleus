@@ -9,6 +9,7 @@
 # Change log:
 # 2022/3/31 - Initial commit.
 # 2022/1/22 - Started work on this script.
+# 2022/5/22 - Updated name of script.
 #------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
@@ -21,9 +22,9 @@ WG_DIR=~
 # This function defines the menu for this script.
 function menu() {
   echo
-  echo "=============================WGConfig=============================="
+  echo "=============================Nucleus==============================="
   echo "#                                                                 #"
-  echo "#      Snappyconfig is a shell script designed to generate        #"
+  echo "#      Nucleus is a shell script designed to generate             #"
   echo "#      the configuration files need for either the server/peer    #"
   echo "#      side or both of the Wireguard tunnel.                      #"
   echo "#                                                                 #"
