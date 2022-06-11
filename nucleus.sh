@@ -332,7 +332,11 @@ function help_func() {
 
 # Checking to see if Wireguard is installed before running the menu function.
 # Thix will check for wg on Linux and MacOS.
-if [ -e /usr/bin/wg ] || [ -e /usr/local/bin/wg ]; then
+if [ -e /usr/bin/wg ]; then
+  menu
+elif [ -e /usr/local/bin/wg ]; then
+  menu
+elif [ -e /opt/(need full path from MacOS)
   menu
 else
   echo "Wireguard does not appear to be installed. Please install Wireguard and try again."
