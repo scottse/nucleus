@@ -7,9 +7,10 @@
 # found here: https://choosealicense.com/licenses/mit/
 # 
 # Change log:
-# 2022/3/31 - Initial commit.
 # 2022/1/22 - Started work on this script.
+# 2022/3/31 - Initial commit.
 # 2022/5/22 - Updated name of script.
+# 2022/7/24 - Updating file paths for MacOS using Homebrew
 #------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
