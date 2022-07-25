@@ -335,8 +335,10 @@ function help_func() {
 # Thix will check for wg on Linux and MacOS.
 if [ -e /usr/bin/wg ]; then
   menu
+# Apple Intel
 elif [ -e /usr/local/bin/wg ]; then
   menu
+# Apple M1
 elif [ -e /opt/homebrew/bin/wg ]; then  
   menu
 else
@@ -345,8 +347,8 @@ else
   echo "For Ubuntu/Debian or CentOS/Fedora use the respective commands below:"
   echo "Ubuntu/Debian: sudo apt install wireguard"
   echo "CentOS/Fedora: sudo dnf install wireguard-tools"
-  echo "MacOS: Use either Homebrew or Macports to install the Wireguard binaries. Visit the"
-  echo "link below for more information."
-  echo "Please visit https://www.wireguard.com/install/ for all other distros."
+  echo "MacOS: Use either Homebrew to install Wireguard."
+  echo
+  echo "Please visit https://www.wireguard.com/install/ for all other OSes."
   exit 1
 fi
