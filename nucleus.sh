@@ -336,7 +336,7 @@ if [ -e /usr/bin/wg ]; then
   menu
 elif [ -e /usr/local/bin/wg ]; then
   menu
-elif [ -e /opt/(need full path); then  
+elif [ -e /opt//opt/homebrew/bin/wg ]; then  
   menu
 else
   echo "Wireguard does not appear to be installed. Please install Wireguard and try again."
