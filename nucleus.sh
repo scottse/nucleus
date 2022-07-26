@@ -7,9 +7,10 @@
 # found here: https://choosealicense.com/licenses/mit/
 # 
 # Change log:
-# 2022/3/31 - Initial commit.
 # 2022/1/22 - Started work on this script.
+# 2022/3/31 - Initial commit.
 # 2022/5/22 - Updated name of script.
+# 2022/7/24 - Updating file paths for MacOS using Homebrew
 #------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
@@ -332,7 +333,13 @@ function help_func() {
 
 # Checking to see if Wireguard is installed before running the menu function.
 # Thix will check for wg on Linux and MacOS.
-if [ -e /usr/bin/wg ] || [ -e /usr/local/bin/wg ]; then
+if [ -e /usr/bin/wg ]; then
+  menu
+# Apple Intel
+elif [ -e /usr/local/bin/wg ]; then
+  menu
+# Apple M1
+elif [ -e /opt/homebrew/bin/wg ]; then  
   menu
 else
   echo "Wireguard does not appear to be installed. Please install Wireguard and try again."
@@ -340,8 +347,8 @@ else
   echo "For Ubuntu/Debian or CentOS/Fedora use the respective commands below:"
   echo "Ubuntu/Debian: sudo apt install wireguard"
   echo "CentOS/Fedora: sudo dnf install wireguard-tools"
-  echo "MacOS: Use either Homebrew or Macports to install the Wireguard binaries. Visit the"
-  echo "link below for more information."
-  echo "Please visit https://www.wireguard.com/install/ for all other distros."
+  echo "MacOS: Use either Homebrew to install Wireguard."
+  echo
+  echo "Please visit https://www.wireguard.com/install/ for all other OSes."
   exit 1
 fi
