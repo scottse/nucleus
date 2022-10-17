@@ -10,8 +10,9 @@
 # 2022/1/22 - Started work on this script.
 # 2022/3/31 - Initial commit.
 # 2022/5/22 - Updated name of script.
-# 2022/7/24 - Updating file paths for MacOS using Homebrew
-#------------------------------------------------------------------------------
+# 2022/7/24 - Updating file paths for MacOS using Homebrew.
+# 2022/10/16 - Disabled ip6tables since IPv6 is not being used.
+#----------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
 LISTEN_PORT=51820
@@ -93,12 +94,12 @@ Address = $srv_ip
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
-PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+#PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
+#PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
-PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+#PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
+#PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $LISTEN_PORT
 PrivateKey = $srv_privkey
 EOF
@@ -265,12 +266,12 @@ Address = 192.168.254.1/24
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
 PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
-PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+#PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
+#PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
 PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
-PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
-PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+#PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
+#PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 ListenPort = $LISTEN_PORT
 PrivateKey = $quick_server_priv
 
