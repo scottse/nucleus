@@ -12,10 +12,15 @@
 # 2022/5/22 - Updated name of script.
 # 2022/7/24 - Updating file paths for MacOS using Homebrew.
 # 2022/10/16 - Disabled ip6tables since IPv6 is not being used.
+# 2022/10/21 - Added global variable for the network interface Wireguard going to 
+#              use for incoming/outgoing network traffic.
 #----------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
 LISTEN_PORT=51820
+# The network interface Wireguard will use for incoming/outgoing network traffic.
+# Note: eth0 is used as default, change this variable to match the network interface on your system(s).
+NET_IF=eth0
 
 # Set the directory for Wireguard files are stored in. The default directory is
 # set to the users home directory.
@@ -93,13 +98,13 @@ function server() {
 Address = $srv_ip
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
-PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostUp = iptables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 #PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
-#PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+#PostUp = ip6tables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
-PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 #PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
-#PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+#PostDown = ip6tables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 ListenPort = $LISTEN_PORT
 PrivateKey = $srv_privkey
 EOF
@@ -265,13 +270,13 @@ EOF
 Address = 192.168.254.1/24
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
-PostUp = iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostUp = iptables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 #PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
-#PostUp = ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+#PostUp = ip6tables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
-PostDown = iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 #PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
-#PostDown = ip6tables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+#PostDown = ip6tables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 ListenPort = $LISTEN_PORT
 PrivateKey = $quick_server_priv
 
