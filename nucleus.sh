@@ -14,6 +14,7 @@
 # 2022/10/16 - Disabled ip6tables since IPv6 is not being used.
 # 2022/10/21 - Added global variable for the network interface Wireguard going to 
 #              use for incoming/outgoing network traffic.
+# 2022/10/22 - Added firewall rule to open Wireguard port for PostUp/PostDown.
 #----------------------------------------------------------------------------------
 
 # The port Wireguard will use to listen for incoming connections.
@@ -99,10 +100,12 @@ Address = $srv_ip
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
 PostUp = iptables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
+PostUp = iptables -A INPUT -i $NET_IF -p udp --dport $LISTEN_PORT -j ACCEPT
 #PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
 #PostUp = ip6tables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
 PostDown = iptables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
+PostDown = iptables -D INPUT -i $NET_IF -p udp --dport $LISTEN_PORT -j ACCEPT
 #PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
 #PostDown = ip6tables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 ListenPort = $LISTEN_PORT
@@ -271,10 +274,12 @@ Address = 192.168.254.1/24
 SaveConfig = true
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT
 PostUp = iptables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
+PostUp = iptables -A INPUT -i $NET_IF -p udp --dport $LISTEN_PORT -j ACCEPT
 #PostUp = ip6tables -A FORWARD -i wg0 -j ACCEPT
 #PostUp = ip6tables -t nat -A POSTROUTING -o $NET_IF -j MASQUERADE
 PostDown = iptables -D FORWARD -i wg0 -j ACCEPT
 PostDown = iptables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
+PostDown = iptables -D INPUT -i $NET_IF -p udp --dport $LISTEN_PORT -j ACCEPT
 #PostDown = ip6tables -D FORWARD -i wg0 -j ACCEPT
 #PostDown = ip6tables -t nat -D POSTROUTING -o $NET_IF -j MASQUERADE
 ListenPort = $LISTEN_PORT
